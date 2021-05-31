@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 
 app.get('/category', function (req, res) {
     let catId = req.query.id;
-    let cat = new Promise(function (resolve, reject) {
+    let category = new Promise(function (resolve, reject) {
         con.query(
             'SELECT * FROM category WHERE id=' + catId,
             function(error, result) {
@@ -58,10 +58,17 @@ app.get('/category', function (req, res) {
             }
         )
     })
-    Promise.all([cat, goods]).then(function(value) {
+    Promise.all([category, goods]).then(function(value) {
         res.render('category', {
-            cat: JSON.parse(JSON.stringify(value[0])),
+            category: JSON.parse(JSON.stringify(value[0])),
             goods: JSON.parse(JSON.stringify(value[1]))
         });
+    });
+});
+
+app.get('/goods', function(req, res) {
+    con.query('SELECT * FROM goods WHERE id=' + req.query.id, function(error, result, fields) {
+        if (error) throw error;
+        res.render('goods', {goods: JSON.parse(JSON.stringify(result))});
     })
 })
