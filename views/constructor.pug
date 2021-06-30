@@ -1,0 +1,31 @@
+include header
+
+div(class='wrap')
+  div(class='content')
+    header(class='site-header')
+      include site_header
+
+    div(class='container')
+      div(id='cart-nav')
+      a(
+          href="/order"
+          target="_blank"
+      )
+          button(class="") Order
+      div(class='row')
+        each val, index in goods
+            div(class='col col-md-4')
+                div(class='card')
+                    h3(class='card-title text-center') #{val['name']}
+                    img(
+                        src='images/'+val['image']
+                        class='card-images'
+                    )
+                    ul(class='card-actions')
+                        li
+                            button(
+                                data-goods_id = val['id']
+                                class='button button-primary add-to-cart'
+                            ) Choose
+        include nav_constructor
+    include footer
